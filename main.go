@@ -73,7 +73,7 @@ Parse JSON
 import to mysql
 *********************************/
 
-client("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
+getLeaguesHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ func BetServerListener(w http.ResponseWriter, req *http.Request){
 	}
 }
 
-func client(u string){
+func getLeaguesHTTP(u string){
 	
 	log.Println("Sending request to: "+ u)
 	resp, err := http.Get(u)
