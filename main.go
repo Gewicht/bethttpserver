@@ -3,7 +3,53 @@ package main
 import (
 "net/http"
 "log"
+"io/ioutil"
+"encoding/json"
 )
+
+
+/*********************************
+Definicija JSON elemenata liga
+
+********************************/
+type LigeList struct {
+	Lige []Lige `json:"lige"`
+}
+type Lige struct {
+	Naziv   string    `json:"naziv"`
+	Razrade []Razrade `json:"razrade"`
+}
+type Razrade struct {
+	Tipovi []Tipovi `json:"tipovi"`
+	Ponude []int    `json:"ponude"`
+}
+type Tipovi struct {
+	Naziv string `json:"naziv"`
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 func main(){
 
@@ -17,13 +63,17 @@ Truncate tables
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /*********************************
+
+
+
+
 Execute request to : https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json
 Get JSON
 Parse JSON
 import to mysql
 *********************************/
 
-
+client("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -69,3 +119,32 @@ func BetServerListener(w http.ResponseWriter, req *http.Request){
 
 	}
 }
+
+func client(u string){
+	
+	log.Println("Sending request to: "+ u)
+	resp, err := http.Get(u)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	for name, value := range resp.Header {
+    		log.Println("",name, " : ", value)
+	}
+	if resp.Header.Get("Content-Type") == "application/json"{
+		
+	
+		log.Println(string(body))
+
+//////procitaj JSON
+
+		leagueJSON := LigeList{}
+		dec := json.NewDecoder(body)
+		dec.Decode(&leagueJSON)
+		log.Println(leagueJSON)
+
+	}
+}
+
