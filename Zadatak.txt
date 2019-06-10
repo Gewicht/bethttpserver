@@ -1,0 +1,24 @@
+Uvod
+Zadatak smo podijelili u više koraka, svaki nešto zahtjevniji od prethodnog. Za implementaciju preporučujemo korištenje Go programskog jezika, a očekujemo da ćeš koristiti relacijsku bazu podataka. Nismo ograničeni tipom, prepuštamo ti na izbor, a naša preporuka je SQL Server, uz mali hint za spajanje na bazu u privitku, s obzirom na specifičnosti na koje bi mogao izgubiti previše vremena, a nisu bitne za generalnu prosudbu.
+Rješenje koje nam pošalješ pripremi kao da ga puštaš u produkciju. Detalji su važni.
+
+Osnova aplikacije
+Napravi aplikaciju koja će pri startu učitati 2 JSON file-a sa sljedećih URL-ova:
+https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json
+https://minus5-dev-test.s3.eu-central-1.amazonaws.com/ponude.json
+JSON podaci (lige.json i ponude.json) su međusobno povezani preko ID-eva ponude. Podaci u ovom trenutku još uvijek mogu biti spremljeni u memoriji aplikacije.
+
+Dijeljenje ponude
+Aplikacija treba slušati HTTP requeste i vraćati određene podatke u zavisnosti od API metode koja je pozvana. 
+Implementiraj API metodu koja će vratiti JSON response sa listom svih liga. Svaka liga mora imati svoj naziv i listu ID-eva ponuda za tu ligu.
+Implementiraj API metodu za dohvaćanje određene ponude prema odgovarajućem ID-u.
+Implementiraj metodu za proširenje postojeće ponude dodavanjem zapisa koji treba imati istu strukturu kao što je prikazano u JSON file-ovima.
+Podaci u ovom trenutku još uvijek mogu biti spremljeni u memoriji aplikacije.
+
+Modeliranje baze podataka
+Umjesto u memoriju sve podatke aplikacija od sada treba spremati u bazu i dohvaćati ih iz baze prilikom izvršavanja gore navedenih API metoda.
+Osim tablica za spremanje podataka za lige i ponude, dodaj i tablicu ‘igrac’ u kojoj će se spremati igračevo korisničko ime i stanje na računu. Za sada ručno popuni tablicu sa nekoliko testnih zapisa.
+Uz zadatak priloži skripte za kreiranje baze, tablica, te ubacivanje test podataka (test igrači).
+
+Uplata listića
+Za kraj implementiraj metodu za simuliranje uplate listića. U requestu prema aplikaciji trebaš dobiti igračevo korisničko ime, iznos uloga i listu odigranih parova (ID ponude - odigrani tip). Kladionica ima pravilo pri kojem odbija uplatu listića za koje je eventualni dobitak preko 10,000 kn.
