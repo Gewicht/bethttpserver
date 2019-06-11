@@ -5,6 +5,12 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+
+	//	_ "github.com/denisenkom/go-mysqldb"
+	"github.com/jmoiron/sqlx"
 )
 
 /*********************************
@@ -32,6 +38,23 @@ type Tipovi struct {
 	Naziv string `json:"naziv"`
 }
 
+/*********************************
+Definicija JSON elemenata ponuda
+
+********************************/
+type Ponude []struct {
+	Broj     string    `json:"broj"`
+	ID       int       `json:"id"`
+	Naziv    string    `json:"naziv"`
+	Vrijeme  time.Time `json:"vrijeme"`
+	Tecajevi []struct {
+		Tecaj float64 `json:"tecaj"`
+		Naziv string  `json:"naziv"`
+	} `json:"tecajevi"`
+	TvKanal       string `json:"tv_kanal,omitempty"`
+	ImaStatistiku bool   `json:"ima_statistiku,omitempty"`
+}
+
 func main() {
 
 	/*********************************
@@ -41,19 +64,24 @@ func main() {
 	  Truncate tables
 	  ********************************/
 
+	log.Println("Trying to bind to DB")
+	//	db, err := sqlx.Connect("mysql", "betserver:zmrU9QkIFd4qGszl@(localhost:3306)/betserver")
+	db, err := sqlx.Connect("mysql", "root@tcp(localhost:3306)/mysql")
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	db.MustExec("insert into login_log values ('login');")
 	//////////////////////////////////////////////////////////////////////////////////////////
 	/*********************************
-
-
-
-
 	  Execute request to : https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json
 	  Get JSON
 	  Parse JSON
 	  import to mysql
 	  *********************************/
 
-	getLeaguesHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
+	ll := getLeaguesHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
+	log.Println(ll)
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	/*********************************
@@ -97,7 +125,7 @@ func BetServerListener(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func getLeaguesHTTP(u string) {
+func getLeaguesHTTP(u string) LigeList {
 
 	log.Println("Sending request to: " + u)
 	resp, err := http.Get(u)
@@ -107,16 +135,20 @@ func getLeaguesHTTP(u string) {
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
-	for name, value := range resp.Header {
-		log.Println("", name, " : ", value)
-	}
+	/*
+		//Ispis Headera
+		for name, value := range resp.Header {
+			log.Println("", name, " : ", value)
+		}
+	*/
+	leagueJSON := LigeList{}
 	if resp.Header.Get("Content-Type") == "application/json" {
 
-		log.Println(string(body))
+		//Ispis Bodya
+		//log.Println(string(body))
 
 		//////procitaj JSON
 
-		leagueJSON := LigeList{}
 		err := json.Unmarshal(body, &leagueJSON)
 		if err != nil {
 			log.Fatal(err)
@@ -124,17 +156,21 @@ func getLeaguesHTTP(u string) {
 		//log.Println(leagueJSON)
 
 		log.Println("Ucitan JSON")
-		for i := 0; i < len(leagueJSON.Lige); i++ {
 
-			log.Println(leagueJSON.Lige[i].Naziv)
-			for j := 0; j < len(leagueJSON.Lige[i].Razrade[0].Tipovi); j++ {
-				log.Println(leagueJSON.Lige[i].Razrade[0].Tipovi[j])
-			}
+		/*
+			for i := 0; i < len(leagueJSON.Lige); i++ {
 
-			for j := 0; j < len(leagueJSON.Lige[i].Razrade[0].Ponude); j++ {
-				log.Println(leagueJSON.Lige[i].Razrade[0].Ponude[j])
+				log.Println(leagueJSON.Lige[i].Naziv)
+				for j := 0; j < len(leagueJSON.Lige[i].Razrade[0].Tipovi); j++ {
+					log.Println(leagueJSON.Lige[i].Razrade[0].Tipovi[j])
+				}
+
+				for j := 0; j < len(leagueJSON.Lige[i].Razrade[0].Ponude); j++ {
+					log.Println(leagueJSON.Lige[i].Razrade[0].Ponude[j])
+				}
 			}
-		}
+		*/
 
 	}
+	return leagueJSON
 }
