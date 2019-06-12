@@ -8,9 +8,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-
 	//	_ "github.com/denisenkom/go-mysqldb"
-	"github.com/jmoiron/sqlx"
 )
 
 /*********************************
@@ -24,7 +22,6 @@ type LigeList struct {
 /*type LigeList struct {
 	Lige Lige `json:"lige"`
 }*/
-
 type Lige struct {
 	Naziv   string    `json:"naziv"`
 	Razrade []Razrade `json:"razrade"`
@@ -33,14 +30,20 @@ type Razrade struct {
 	Tipovi []Tipovi `json:"tipovi"`
 	Ponude []int    `json:"ponude"`
 }
-
 type Tipovi struct {
 	Naziv string `json:"naziv"`
 }
 
 /*********************************
-Definicija JSON elemenata ponuda
+Definicija JSON elemenata za vratiti lige
+********************************/
+type LeagueResp struct {
+	NazivLige   string `json:"nazivlige"`
+	PonudeULigi []int  `json:"ponudeuligi"`
+}
 
+/*********************************
+Definicija JSON elemenata ponuda
 ********************************/
 type Ponude []struct {
 	Broj     string    `json:"broj"`
@@ -56,22 +59,24 @@ type Ponude []struct {
 }
 
 func main() {
-
+	log.Println("\n****************************************************\n******************* Starting APP *******************\n****************************************************")
 	/*********************************
 
 	  Check if DB connection can be established
 	  Make connection to DB
 	  Truncate tables
 	  ********************************/
+	/*
+		log.Println("Trying to bind to DB")
+		//	db, err := sqlx.Connect("mysql", "betserver:zmrU9QkIFd4qGszl@(localhost:3306)/betserver")
+		db, err := sqlx.Connect("mysql", "root:root@tcp(localhost:3306)/mysql")
 
-	log.Println("Trying to bind to DB")
-	//	db, err := sqlx.Connect("mysql", "betserver:zmrU9QkIFd4qGszl@(localhost:3306)/betserver")
-	db, err := sqlx.Connect("mysql", "root@tcp(localhost:3306)/mysql")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		db.MustExec("insert into login_log values ('login');")
+	*/
 
-	if err != nil {
-		log.Fatalln(err)
-	}
-	db.MustExec("insert into login_log values ('login');")
 	//////////////////////////////////////////////////////////////////////////////////////////
 	/*********************************
 	  Execute request to : https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json
@@ -80,8 +85,9 @@ func main() {
 	  import to mysql
 	  *********************************/
 
-	ll := getLeaguesHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
-	log.Println(ll)
+	LoadedLeagueList := getLeaguesHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
+	log.Println("JSON with leagues received:\n", LoadedLeagueList)
+	log.Println("APICall method check:\n", getLeagues(LoadedLeagueList))
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	/*********************************
@@ -154,9 +160,7 @@ func getLeaguesHTTP(u string) LigeList {
 			log.Fatal(err)
 		}
 		//log.Println(leagueJSON)
-
-		log.Println("Ucitan JSON")
-
+		log.Println("JSON received and parsed:")
 		/*
 			for i := 0; i < len(leagueJSON.Lige); i++ {
 
@@ -171,6 +175,22 @@ func getLeaguesHTTP(u string) LigeList {
 			}
 		*/
 
+		log.Println(getLeagues(leagueJSON))
 	}
 	return leagueJSON
+}
+
+/*
+funkcija koja vraca ime lige i sve ponude u ligi  --> API CALL 1
+*/
+func getLeagues(ll LigeList) []LeagueResp {
+	lr := []LeagueResp{}
+	for i := 0; i < len(ll.Lige); i++ {
+		L := LeagueResp{ll.Lige[i].Naziv, ll.Lige[i].Razrade[0].Ponude}
+		//log.Println("Nasao ligu: ", L.NazivLige)
+		//log.Println(L.PonudeULigi)
+		lr = append(lr, L)
+	}
+	//log.Println("Found ", len(lr), " leagues to deliver")
+	return lr
 }
