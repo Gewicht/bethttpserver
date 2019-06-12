@@ -11,6 +11,11 @@ import (
 	//	_ "github.com/denisenkom/go-mysqldb"
 )
 
+// GLOBAL VARIABLE DECLARATION
+
+var LoadedLeagueListGlobal LigeList
+var OffersGlobal Ponude
+
 /*********************************
 Definicija JSON elemenata liga
 
@@ -18,10 +23,6 @@ Definicija JSON elemenata liga
 type LigeList struct {
 	Lige []Lige `json:"lige"`
 }
-
-/*type LigeList struct {
-	Lige Lige `json:"lige"`
-}*/
 type Lige struct {
 	Naziv   string    `json:"naziv"`
 	Razrade []Razrade `json:"razrade"`
@@ -84,10 +85,9 @@ func main() {
 	  Parse JSON
 	  import to mysql
 	  *********************************/
-
-	LoadedLeagueList := getLeaguesHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
-	log.Println("JSON with leagues received:\n", LoadedLeagueList)
-	log.Println("APICall method check:\n", getLeagues(LoadedLeagueList))
+	getLeaguesFromServerHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
+	getOffersFromServerHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/ponude.json")
+	log.Println("Pronadena ", OffersGlobal[getOfferByID(8679702)])
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	/*********************************
@@ -106,14 +106,19 @@ func main() {
 }
 
 func BetServerListener(w http.ResponseWriter, req *http.Request) {
-
 	// Use URL to decide what API call is triggered and call function
 
 	apiCall := req.URL.Path[1:]
 	//	log.Println("New request arrived on path: " + apiCall)
-	if apiCall == "GetLeagues" {
-		log.Println("New request arrived on path: " + apiCall + " -> Server was asked to provide Leagues")
-		w.Write([]byte("List of Leagues"))
+	if apiCall == "GetOffersPerLeagues" {
+		log.Println("New request arrived on path: " + apiCall + " -> Server was asked to provide Leagues and offers for leagues")
+		lr := getLeaguesResp()
+		log.Println(lr)
+		resptext, err := json.Marshal(lr)
+		if err != nil {
+			log.Fatal(err)
+		}
+		w.Write(resptext)
 	} else if apiCall == "GetOffer" {
 		log.Println("New request arrived on path: " + apiCall + " -> Server was asked to provide Offer")
 		w.Write([]byte("Offer"))
@@ -130,8 +135,7 @@ func BetServerListener(w http.ResponseWriter, req *http.Request) {
 
 	}
 }
-
-func getLeaguesHTTP(u string) LigeList {
+func getLeaguesFromServerHTTP(u string) { // Funkcija kojom dohvacam lige.json
 
 	log.Println("Sending request to: " + u)
 	resp, err := http.Get(u)
@@ -147,7 +151,6 @@ func getLeaguesHTTP(u string) LigeList {
 			log.Println("", name, " : ", value)
 		}
 	*/
-	leagueJSON := LigeList{}
 	if resp.Header.Get("Content-Type") == "application/json" {
 
 		//Ispis Bodya
@@ -155,7 +158,7 @@ func getLeaguesHTTP(u string) LigeList {
 
 		//////procitaj JSON
 
-		err := json.Unmarshal(body, &leagueJSON)
+		err := json.Unmarshal(body, &LoadedLeagueListGlobal)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -175,22 +178,46 @@ func getLeaguesHTTP(u string) LigeList {
 			}
 		*/
 
-		log.Println(getLeagues(leagueJSON))
 	}
-	return leagueJSON
 }
+func getLeaguesResp() []LeagueResp { //funkcija koja vraca ime lige i sve ponude u ligi  --> API CALL 1
 
-/*
-funkcija koja vraca ime lige i sve ponude u ligi  --> API CALL 1
-*/
-func getLeagues(ll LigeList) []LeagueResp {
 	lr := []LeagueResp{}
-	for i := 0; i < len(ll.Lige); i++ {
-		L := LeagueResp{ll.Lige[i].Naziv, ll.Lige[i].Razrade[0].Ponude}
+	for i := 0; i < len(LoadedLeagueListGlobal.Lige); i++ {
+		L := LeagueResp{LoadedLeagueListGlobal.Lige[i].Naziv, LoadedLeagueListGlobal.Lige[i].Razrade[0].Ponude}
 		//log.Println("Nasao ligu: ", L.NazivLige)
 		//log.Println(L.PonudeULigi)
 		lr = append(lr, L)
 	}
 	//log.Println("Found ", len(lr), " leagues to deliver")
 	return lr
+}
+func getOffersFromServerHTTP(u string) { // Funkcija kojom dohvacam ponude.json
+
+	log.Println("Sending request to: " + u)
+	resp, err := http.Get(u)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if resp.Header.Get("Content-Type") == "application/json" {
+		err := json.Unmarshal(body, &OffersGlobal)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Println("ponude.json received and parsed. Overall", len(OffersGlobal), " offer loaded")
+	}
+}
+func getOfferByID(id int) int {
+
+	for i := 0; i < len(OffersGlobal); i++ {
+		if OffersGlobal[i].ID == id {
+			return i
+			break
+		}
+	}
+	return 0
 }
