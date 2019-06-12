@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -61,12 +62,6 @@ type Ponude []struct {
 
 func main() {
 	log.Println("\n****************************************************\n******************* Starting APP *******************\n****************************************************")
-	/*********************************
-
-	  Check if DB connection can be established
-	  Make connection to DB
-	  Truncate tables
-	  ********************************/
 	/*
 		log.Println("Trying to bind to DB")
 		//	db, err := sqlx.Connect("mysql", "betserver:zmrU9QkIFd4qGszl@(localhost:3306)/betserver")
@@ -78,29 +73,10 @@ func main() {
 		db.MustExec("insert into login_log values ('login');")
 	*/
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	/*********************************
-	  Execute request to : https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json
-	  Get JSON
-	  Parse JSON
-	  import to mysql
-	  *********************************/
 	getLeaguesFromServerHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/lige.json")
 	getOffersFromServerHTTP("https://minus5-dev-test.s3.eu-central-1.amazonaws.com/ponude.json")
-	log.Println("Pronadena ", OffersGlobal[getOfferByID(8679702)])
+	//log.Println("Pronadena ", OffersGlobal[getOfferByID(8679702)])
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	/*********************************
-	  Execute request to : https://minus5-dev-test.s3.eu-central-1.amazonaws.com/ponude.json
-	  Get JSON
-	  Parse JSON
-	  import to mysql
-	  *********************************/
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	/*********************************
-	  Start HTTP server
-	  *********************************/
 	http.HandleFunc("/", BetServerListener)
 	http.ListenAndServe(":1234", nil)
 }
@@ -119,9 +95,27 @@ func BetServerListener(w http.ResponseWriter, req *http.Request) {
 			log.Fatal(err)
 		}
 		w.Write(resptext)
-	} else if apiCall == "GetOffer" {
-		log.Println("New request arrived on path: " + apiCall + " -> Server was asked to provide Offer")
-		w.Write([]byte("Offer"))
+	} else if apiCall == "GetOfferById" {
+		keys, ok := req.URL.Query()["offer_id"]
+		if !ok || len(keys[0]) < 1 { //ako ne postoji key ili je vrijednost kraca od 1 znak
+			log.Println("New request arrived on path: ", apiCall, " -> Server was asked to provide Offer but parameter offer_id is missing")
+			w.Write([]byte("offer_id value is missing"))
+		} else { //ako je key matchan i ima vrijednost
+			var oid int
+			oid, _ = strconv.Atoi(keys[0])
+			oid = getOfferByID(oid)
+			if oid > 0 { // ako je key vrijednost pozitivan intiger
+				log.Println("New request arrived on path: ", apiCall, " -> Server was asked to provide Offer with ID:", keys[0], "/n", OffersGlobal[oid])
+				resptext, err := json.Marshal(OffersGlobal[oid])
+				if err != nil {
+					log.Fatal(err)
+				}
+				w.Write(resptext)
+			} else {
+				log.Println("New request arrived on path: ", apiCall, " -> Server was asked to provide Offer with ID:", keys[0], " but it is invalid")
+				w.Write([]byte("offer_id value is invalid"))
+			}
+		}
 	} else if apiCall == "AddOffer" {
 		log.Println("New request arrived on path: " + apiCall + " -> Server was asked add new offer to list")
 		w.Write([]byte("Adding Offer"))
@@ -131,7 +125,7 @@ func BetServerListener(w http.ResponseWriter, req *http.Request) {
 	} else {
 		log.Println("New request arrived on path: " + apiCall + " -> API CALL unknown")
 		w.WriteHeader(404)
-		w.Write([]byte("Unknown call"))
+		w.Write([]byte("Unknown call: " + apiCall))
 
 	}
 }
@@ -219,5 +213,5 @@ func getOfferByID(id int) int {
 			break
 		}
 	}
-	return 0
+	return -1
 }
