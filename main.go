@@ -142,15 +142,19 @@ func BetServerListener(w http.ResponseWriter, req *http.Request) { // Use URL to
 				//log.Println(provjeraPopisaPonuda())
 				cnt := 0
 				for i := 0; i < len(P); i++ {
-					if !checkExistingOffer(P[i].ID) {
+					if !checkExistingOffer(P[i].ID) && P[i].ID > 0 {
 						OffersGlobal = append(OffersGlobal, P[i])
 						cnt++
 					}
 				}
-				//log.Println(provjeraPopisaPonuda())
-				log.Println("POST body contains", len(P), "offers. Added", cnt, "offers to existing list")
+				for i := 0; i < len(P); i++ {
+					log.Println(P[i])
+				}
 
-				w.Write([]byte("AddOffer"))
+				log.Println(provjeraPopisaPonuda())
+				log.Println("POST body contains", len(P), "possible offers. Added", cnt, "offers to existing list")
+
+				w.Write([]byte("Offers added!"))
 			} else {
 				log.Println("POST body is not json\n", string(body))
 				w.Write([]byte("No json file in POST body"))
@@ -259,6 +263,7 @@ func checkExistingOffer(newId int) bool {
 	}
 	return false
 }
+
 func provjeraPopisaPonuda() string {
 	str := ""
 	for i := 0; i < len(OffersGlobal); i++ {

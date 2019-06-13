@@ -8,7 +8,7 @@ ALTER TABLE `liga`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `liga`
   MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
--- --------------------------------------------------------
+-----------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `liga_ponude` (
   `id` int(11) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `liga_ponude` (
 
 ALTER TABLE `liga_ponude`
   ADD PRIMARY KEY (`id`);
--- --------------------------------------------------------
+-----------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `liga_tipovi` (
   `id` int(11) NOT NULL,
@@ -29,7 +29,7 @@ ALTER TABLE `liga_tipovi`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `liga_tipovi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
--- --------------------------------------------------------
+-----------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `ponude` (
   `id` int(11) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `ponude` (
 
 ALTER TABLE `ponude`
   ADD PRIMARY KEY (`id`);
--- --------------------------------------------------------
+-----------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `ponude_tecaj` (
   `id` int(11) NOT NULL,
@@ -55,3 +55,19 @@ ALTER TABLE `ponude_tecaj`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `ponude_tecaj`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+-----------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `igrac` (
+  `id` int(11) NOT NULL,
+  `korisnickoime` varchar(50) NOT NULL,
+  `saldo` float(10,2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+ALTER TABLE `igrac`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+
+INSERT INTO `igrac` (`id`, `korisnickoime`, `saldo`) VALUES
+(1, 'Pero Peric', 100.00),
+(2, 'Marko Markovic', -76.54),
+(3, 'Ivo Ivic', 12345678.00),
+(4, 'Nemam Pojma Pojmic', 88.88),
+(5, 'Richie Rich', 100000000.00);
