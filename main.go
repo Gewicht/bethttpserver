@@ -12,11 +12,6 @@ import (
 	//	_ "github.com/denisenkom/go-mysqldb"
 )
 
-// GLOBAL VARIABLE DECLARATION
-
-var LoadedLeagueListGlobal LigeList
-var OffersGlobal []Ponude
-
 type LigeList struct {
 	Lige []Lige `json:"lige"`
 }
@@ -49,9 +44,31 @@ type Ponude struct {
 	TvKanal       string `json:"tv_kanal,omitempty"`
 	ImaStatistiku bool   `json:"ima_statistiku,omitempty"`
 }
+type Uplata struct {
+	OfferID int    `json:"offerid"`
+	Naziv   string `json:"naziv"`
+}
+type Listic struct {
+	UserID      int      `json:"userid"`
+	Ulog        float64  `json:"ulog"`
+	Parovi      []Uplata `json:"parovi"`
+	Koeficijent float64  `json:"koeficijent"`
+}
+type Igrac struct {
+	ID            int     `json:"id"`
+	Korisnickoime string  `json:"korisnickoime"`
+	Saldo         float64 `json:"saldo"`
+}
+
+// GLOBAL VARIABLE DECLARATION
+
+var LoadedLeagueListGlobal LigeList
+var OffersGlobal []Ponude
+var Players []Igrac
 
 func main() {
 	log.Println("\n****************************************************\n******************* Starting APP *******************\n****************************************************")
+	kreirajIgrace()
 	/*
 		log.Println("Trying to bind to DB")
 		//	db, err := sqlx.Connect("mysql", "betserver:zmrU9QkIFd4qGszl@(localhost:3306)/betserver")
@@ -120,7 +137,6 @@ func BetServerListener(w http.ResponseWriter, req *http.Request) { // Use URL to
 					log.Println("", name, " : ", value)
 				}
 			*/
-
 			body, err := ioutil.ReadAll(req.Body)
 			if err != nil {
 				log.Println("Error occur. Action stopped\n", err)
@@ -160,9 +176,54 @@ func BetServerListener(w http.ResponseWriter, req *http.Request) { // Use URL to
 				w.Write([]byte("No json file in POST body"))
 			}
 		}
-	} else if apiCall == "NewTicket" {
-		log.Println("New request arrived on path: " + apiCall + " -> New ticket received")
-		w.Write([]byte("Verifying ticket"))
+	} else if apiCall == "NewTicket" { //New ticket arrived
+
+		if req.Method != "POST" {
+			log.Println("New request arrived on path: " + apiCall + " that is not POST method.")
+			w.Write([]byte("Only POST method allowed"))
+		} else {
+			log.Println("New POST request arrived on path: " + apiCall + " -> Server was asked insert new ticket")
+			body, err := ioutil.ReadAll(req.Body)
+			if err != nil {
+				log.Println("Error occur. Action stopped\n", err)
+			} else if req.Header.Get("Content-Type") == "application/json" {
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+				var L Listic /////////////Ovdje kreiramo listic
+				err := json.Unmarshal(body, &L)
+				if err != nil {
+
+					log.Println(err)
+				}
+				str := ValidateTicket(L)
+				if str != "ALL OK" {
+					log.Println("POST body contains invalid ticket. Reason:", str)
+					w.Write([]byte(str))
+				} else {
+					L.Koeficijent = calculateTicket(L)
+					if L.Koeficijent*L.Ulog > 10000 {
+						log.Println("POST body contains valid ticket. Ticket calculation is over 10000kn: tecaj:", L.Koeficijent, "ulog:", L.Ulog, " ukupno za isplatu:", L.Koeficijent*L.Ulog)
+						w.Write([]byte("Ticket rejected due to to high ammout for payout!"))
+
+					} else {
+						log.Println("POST body contains valid ticket. Ticket approved and accepted with tecaj:", L.Koeficijent)
+						w.Write([]byte("Ticket confirmed"))
+					}
+				}
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			} else {
+				log.Println("POST body is not json\n", string(body))
+				w.Write([]byte("No json file in POST body"))
+			}
+		}
+
 	} else {
 		log.Println("New request arrived on path: " + apiCall + " -> API CALL unknown")
 		w.WriteHeader(404)
@@ -255,15 +316,14 @@ func getOfferByID(id int) int {
 	}
 	return -1
 }
-func checkExistingOffer(newId int) bool {
+func checkExistingOffer(x int) bool {
 	for i := 0; i < len(OffersGlobal); i++ {
-		if OffersGlobal[i].ID == newId {
+		if OffersGlobal[i].ID == x {
 			return true
 		}
 	}
 	return false
 }
-
 func provjeraPopisaPonuda() string {
 	str := ""
 	for i := 0; i < len(OffersGlobal); i++ {
@@ -274,4 +334,115 @@ func provjeraPopisaPonuda() string {
 		}
 	}
 	return str
+}
+func kreirajIgrace() {
+	var i Igrac
+	i.ID = 1
+	i.Korisnickoime = "Pero Peric"
+	i.Saldo = 100.00
+	Players = append(Players, i)
+
+	i.ID = 2
+	i.Korisnickoime = "Marko Markovic"
+	i.Saldo = -76.54
+	Players = append(Players, i)
+
+	i.ID = 3
+	i.Korisnickoime = "Ivo Ivic"
+	i.Saldo = 12345678.00
+	Players = append(Players, i)
+
+	i.ID = 4
+	i.Korisnickoime = "Nemam Pojma Pojmic"
+	i.Saldo = 88.88
+	Players = append(Players, i)
+
+	i.ID = 5
+	i.Korisnickoime = "Richie Rich"
+	i.Saldo = 100000000.00
+	Players = append(Players, i)
+
+	log.Println("Players loaded:", Players)
+}
+func findPlayer(ticketplayerid int) int {
+
+	return -1
+}
+func ValidateTicket(L Listic) string {
+	//Da li igrac postoji?
+	player := doesPlayerExist(L.UserID)
+	if player == -1 {
+		return "Unknown player"
+	} else if !doesPlayerHaveCredits(player, L.Ulog) {
+		return "Player does not have enough credits"
+	} else if !checkAreOffersCorrect(L) {
+		return "At least one offer in list is not valid"
+	} else {
+		if calculateTicket(L) < -1 {
+			return "Some tickets tecaj is not OK"
+		}
+	}
+	return "ALL OK"
+}
+func doesPlayerExist(userID int) int { //provjerava da li korisnik postoji i vracanj ID u globalnom fileu
+
+	plr := -1
+	for i := 0; i < len(Players); i++ {
+		if Players[i].ID == userID {
+			plr = i
+			break
+		}
+	}
+	return plr
+}
+func doesPlayerHaveCredits(userID int, ulogZaListic float64) bool { // provjerava da li korisnik ima dovoljno novaca za uplatu
+
+	if Players[userID].Saldo > ulogZaListic {
+		return true
+	} else {
+		return false
+	}
+
+}
+func checkAreOffersCorrect(L Listic) bool { // Javlja ako imamo offer koji ne postoji u ponudi
+	for i := 0; i < len(L.Parovi); i++ {
+		if !isOfferValid(L.Parovi[i].OfferID) {
+			return false
+		}
+	}
+	return true
+}
+func isOfferValid(ticketOfferId int) bool { // Trazi u globalnoj varijabli da li neki offer postoji
+	for i := 0; i < len(OffersGlobal); i++ {
+		if OffersGlobal[i].ID == ticketOfferId { // ovdje nedostaje provjera da li je vrijeme dogadaja proslo. No primjer nije tako napravljen.
+			return true
+		}
+	}
+	return false
+}
+func calculateTicket(L Listic) float64 { // Mnozi koeficijente u validiranom ticketu i upisuje ga
+	var k float64
+	k = 1
+	for i := 0; i < len(L.Parovi); i++ {
+		t := getTecaj(L.Parovi[i].OfferID, L.Parovi[i].Naziv)
+		if t < 0 {
+			k = -1
+			break
+		}
+		k *= t
+	}
+	return k
+}
+func getTecaj(par int, nazivTecaja string) float64 {
+	for i := 0; i < len(OffersGlobal); i++ {
+		if OffersGlobal[i].ID == par {
+			for j := 0; j < len(OffersGlobal[i].Tecajevi); j++ {
+				if OffersGlobal[i].Tecajevi[j].Naziv == nazivTecaja {
+					return OffersGlobal[i].Tecajevi[j].Tecaj
+				}
+			}
+
+		}
+	}
+	return -1
 }

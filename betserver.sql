@@ -71,3 +71,28 @@ INSERT INTO `igrac` (`id`, `korisnickoime`, `saldo`) VALUES
 (3, 'Ivo Ivic', 12345678.00),
 (4, 'Nemam Pojma Pojmic', 88.88),
 (5, 'Richie Rich', 100000000.00);
+-----------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `listici` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `ulog` double NOT NULL,
+  `koeficijent` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE `listici`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `listici`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+-----------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `listici_parovi` (
+  `id` int(11) NOT NULL,
+  `ponuda_id` int(11) NOT NULL,
+  `listici_id` int(11) NOT NULL,
+  `tecaj` double NOT NULL,
+  `naziv` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE `listici_parovi`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `listici_parovi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
