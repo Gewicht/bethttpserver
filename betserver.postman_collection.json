@@ -1,0 +1,592 @@
+{
+	"info": {
+		"_postman_id": "de558437-da22-43a1-a0d1-478d6b734ee3",
+		"name": "betserver",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:1234/GetOffersPerLeagues",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOffersPerLeagues",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOffersPerLeagues"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/GetOfferById?offer_id=8991933",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOfferById?offer_id=8991933",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOfferById"
+					],
+					"query": [
+						{
+							"key": "offer_id",
+							"value": "8991933"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/GetOfferById?offer_id=8991933x",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOfferById?offer_id=8991933x",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOfferById"
+					],
+					"query": [
+						{
+							"key": "offer_id",
+							"value": "8991933x"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/GetOfferById?key_koji_smeta=4321&offer_id=12345c",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOfferById?key_koji_smeta=4321&offer_id=12345c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOfferById"
+					],
+					"query": [
+						{
+							"key": "key_koji_smeta",
+							"value": "4321"
+						},
+						{
+							"key": "offer_id",
+							"value": "12345c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/GetOfferById?key_koji_smeta=4321&offer_id=8991933",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOfferById?key_koji_smeta=4321&offer_id=8991933",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOfferById"
+					],
+					"query": [
+						{
+							"key": "key_koji_smeta",
+							"value": "4321"
+						},
+						{
+							"key": "offer_id",
+							"value": "8991933"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/GetOfferById?key_koji_smeta=4321&offer_id=8991933x",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOfferById?key_koji_smeta=4321&offer_id=8991933x",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOfferById"
+					],
+					"query": [
+						{
+							"key": "key_koji_smeta",
+							"value": "4321"
+						},
+						{
+							"key": "offer_id",
+							"value": "8991933x"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/GetOfferById?offer_id=12345",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOfferById?offer_id=12345",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOfferById"
+					],
+					"query": [
+						{
+							"key": "offer_id",
+							"value": "12345"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/GetOfferById?key_koji_smeta=4321&offer_id=12345",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOfferById?key_koji_smeta=4321&offer_id=12345",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOfferById"
+					],
+					"query": [
+						{
+							"key": "key_koji_smeta",
+							"value": "4321"
+						},
+						{
+							"key": "offer_id",
+							"value": "12345"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/GetOfferById?offer_id=12345c",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1234/GetOfferById?offer_id=12345c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"GetOfferById"
+					],
+					"query": [
+						{
+							"key": "offer_id",
+							"value": "12345c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/AddOffer - single",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"broj\":\"32\",\"id\":8991933,\"naziv\":\"Hrvatska(17)-SAD(17)\",\"vrijeme\":\"2015-10-20T22:00:00+02:00\",\"tecajevi\":[{\"tecaj\":1.7,\"naziv\":\"1\"},{\"tecaj\":4.1,\"naziv\":\"X\"},{\"tecaj\":6,\"naziv\":\"2\"},{\"tecaj\":1.2,\"naziv\":\"1X\"},{\"tecaj\":2.45,\"naziv\":\"X2\"},{\"tecaj\":1.3,\"naziv\":\"12\"},{\"tecaj\":2.8,\"naziv\":\"f+2\"}]}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/AddOffer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"AddOffer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/AddOffer - single nok",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"broj\":\"32\",\"id\":89919n33,\"naziv\":\"Hrvatska(17)-SAD(17)\",\"vrijeme\":\"2015-10-20T22:00:00+02:00\",\"tecajevi\":[{\"tecaj\":1.7,\"naziv\":\"1\"},{\"tecaj\":4.1,\"naziv\":\"X\"},{\"tecaj\":6,\"naziv\":\"2\"},{\"tecaj\":1.2,\"naziv\":\"1X\"},{\"tecaj\":2.45,\"naziv\":\"X2\"},{\"tecaj\":1.3,\"naziv\":\"12\"},{\"tecaj\":2.8,\"naziv\":\"f+2\"}]}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/AddOffer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"AddOffer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/AddOffer - multiple",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[  \n  {  \n    \"broj\":\"12\",\n    \"id\":8991909,\n    \"naziv\":\"Dinamo Zagreb-Olymp.Pireus\",\n    \"vrijeme\":\"2015-10-20T20:45:00+02:00\",\n    \"tecajevi\":[  \n      {  \n        \"tecaj\":2.9,\n        \"naziv\":\"1\"\n      },\n      {  \n        \"tecaj\":3.3,\n        \"naziv\":\"X\"\n      },\n      {  \n        \"tecaj\":2.9,\n        \"naziv\":\"2\"\n      },\n      {  \n        \"tecaj\":1.55,\n        \"naziv\":\"1X\"\n      },\n      {  \n        \"tecaj\":1.55,\n        \"naziv\":\"X2\"\n      },\n      {  \n        \"tecaj\":1.45,\n        \"naziv\":\"12\"\n      }\n    ]\n  },{\"broj\":\"32\",\"id\":8991933,\"naziv\":\"Hrvatska(17)-SAD(17)\",\"vrijeme\":\"2015-10-20T22:00:00+02:00\",\"tecajevi\":[{\"tecaj\":1.7,\"naziv\":\"1\"},{\"tecaj\":4.1,\"naziv\":\"X\"},{\"tecaj\":6,\"naziv\":\"2\"},{\"tecaj\":1.2,\"naziv\":\"1X\"},{\"tecaj\":2.45,\"naziv\":\"X2\"},{\"tecaj\":1.3,\"naziv\":\"12\"},{\"tecaj\":2.8,\"naziv\":\"f+2\"}]}]"
+				},
+				"url": {
+					"raw": "http://localhost:1234/AddOffer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"AddOffer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/AddOffer - multiple nok2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[  \n  {  \n    \"broj\":\"12\",\n    \"id\":89s91909,\n    \"naziv\":\"Dinamo Zagreb-Olymp.Pireus\",\n    \"vrijeme\":\"2015-10-20T20:45:00+02:00\",\n    \"tecajevi\":[  \n      {  \n        \"tecaj\":2.9,\n        \"naziv\":\"1\"\n      },\n      {  \n        \"tecaj\":3.3,\n        \"naziv\":\"X\"\n      },\n      {  \n        \"tecaj\":2.9,\n        \"naziv\":\"2\"\n      },\n      {  \n        \"tecaj\":1.55,\n        \"naziv\":\"1X\"\n      },\n      {  \n        \"tecaj\":1.55,\n        \"naziv\":\"X2\"\n      },\n      {  \n        \"tecaj\":1.45,\n        \"naziv\":\"12\"\n      }\n    ]\n  },{\"broj\":\"32\",\"id\":899s1933,\"naziv\":\"Hrvatska(17)-SAD(17)\",\"vrijeme\":\"2015-10-20T22:00:00+02:00\",\"tecajevi\":[{\"tecaj\":1.7,\"naziv\":\"1\"},{\"tecaj\":4.1,\"naziv\":\"X\"},{\"tecaj\":6,\"naziv\":\"2\"},{\"tecaj\":1.2,\"naziv\":\"1X\"},{\"tecaj\":2.45,\"naziv\":\"X2\"},{\"tecaj\":1.3,\"naziv\":\"12\"},{\"tecaj\":2.8,\"naziv\":\"f+2\"}]}]"
+				},
+				"url": {
+					"raw": "http://localhost:1234/AddOffer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"AddOffer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/AddOffer - multiple nok1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[  \n  {  \n    \"broj\":\"12\",\n    \"id\":8991s909,\n    \"naziv\":\"Dinamo Zagreb-Olymp.Pireus\",\n    \"vrijeme\":\"2015-10-20T20:45:00+02:00\",\n    \"tecajevi\":[  \n      {  \n        \"tecaj\":2.9,\n        \"naziv\":\"1\"\n      },\n      {  \n        \"tecaj\":3.3,\n        \"naziv\":\"X\"\n      },\n      {  \n        \"tecaj\":2.9,\n        \"naziv\":\"2\"\n      },\n      {  \n        \"tecaj\":1.55,\n        \"naziv\":\"1X\"\n      },\n      {  \n        \"tecaj\":1.55,\n        \"naziv\":\"X2\"\n      },\n      {  \n        \"tecaj\":1.45,\n        \"naziv\":\"12\"\n      }\n    ]\n  },{\"broj\":\"32\",\"id\":8991933,\"naziv\":\"Hrvatska(17)-SAD(17)\",\"vrijeme\":\"2015-10-20T22:00:00+02:00\",\"tecajevi\":[{\"tecaj\":1.7,\"naziv\":\"1\"},{\"tecaj\":4.1,\"naziv\":\"X\"},{\"tecaj\":6,\"naziv\":\"2\"},{\"tecaj\":1.2,\"naziv\":\"1X\"},{\"tecaj\":2.45,\"naziv\":\"X2\"},{\"tecaj\":1.3,\"naziv\":\"12\"},{\"tecaj\":2.8,\"naziv\":\"f+2\"}]}]"
+				},
+				"url": {
+					"raw": "http://localhost:1234/AddOffer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"AddOffer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/NewTicket ok",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"userid\":4,\n    \"ulog\":8.88,\n    \"parovi\":[  \n      {\n        \"offerid\":8991908,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991913,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991933,\n        \"naziv\":\"1\"\n      },\n      { \n        \"offerid\":8991284,\n        \"naziv\":\"1\"\n      }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/NewTicket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"NewTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/NewTicket nok payout amount too big",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"userid\":3,\n    \"ulog\":555.55,\n    \"parovi\":[  \n      {\n        \"offerid\":8991908,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991913,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991933,\n        \"naziv\":\"1\"\n      },\n      { \n        \"offerid\":8991284,\n        \"naziv\":\"1\"\n      }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/NewTicket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"NewTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/NewTicket NOK OfferID",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"userid\":3,\n    \"ulog\":555.55,\n    \"parovi\":[  \n      {\n        \"offerid\":89191908,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991913,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991933,\n        \"naziv\":\"1\"\n      },\n      { \n        \"offerid\":8991284,\n        \"naziv\":\"1\"\n      }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/NewTicket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"NewTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/NewTicket nok nocredit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"userid\":1,\n    \"ulog\":555.55,\n    \"parovi\":[  \n      {\n        \"offerid\":8991908,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991913,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991933,\n        \"naziv\":\"1\"\n      },\n      { \n        \"offerid\":8991284,\n        \"naziv\":\"1\"\n      }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/NewTicket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"NewTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/NewTicket nok negative credits",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"userid\":2,\n    \"ulog\":555.55,\n    \"parovi\":[  \n      {\n        \"offerid\":8991908,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991913,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991933,\n        \"naziv\":\"1\"\n      },\n      { \n        \"offerid\":8991284,\n        \"naziv\":\"1\"\n      }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/NewTicket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"NewTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/NewTicket nok offer id with char",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"userid\":3,\n    \"ulog\":555.55,\n    \"parovi\":[  \n      {\n        \"offerid\":899s1908,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991913,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991933,\n        \"naziv\":\"1\"\n      },\n      { \n        \"offerid\":8991284,\n        \"naziv\":\"1\"\n      }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/NewTicket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"NewTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1234/NewTicket nok unknown user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"userid\":3333,\n    \"ulog\":555.55,\n    \"parovi\":[  \n      {\n        \"offerid\":8991908,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991913,\n        \"naziv\":\"1\"\n      },\n      {\n        \"offerid\":8991933,\n        \"naziv\":\"1\"\n      },\n      { \n        \"offerid\":8991284,\n        \"naziv\":\"1\"\n      }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1234/NewTicket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1234",
+					"path": [
+						"NewTicket"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
