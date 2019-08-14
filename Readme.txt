@@ -21,3 +21,4 @@ Dodatno:
 U git folderu se takoder nalazi limitirani set test caseova koje sam koristio tijekom rada na razvoju ove aplikacije. Ovo je standardni export iz Postmana
 
 EDIT: Internal test 20190813 2x
+EDIT: Internal test 20190814
